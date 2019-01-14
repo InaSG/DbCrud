@@ -1,21 +1,21 @@
 import java.sql.*;
 import java.util.ArrayList;
 
-public class EmployeeDAO {
+public class KnygaDAO {
 
-    public static void insert(Employee user) {
+    public static void insert(Knyga knyg) {
 
         String url = "jdbc:mysql://localhost:3306/database";
 
-        String query = "INSERT INTO employees "
-                + "(name, surname, salary) "
-                + "VALUES (?,?,?)";
+        String query = "INSERT INTO knygos "
+                + "(vardas, pavarde, isleidimo_metai, leidimas, pavadinimas) "
+                + "VALUES (?,?,?,?,?)";
 
         try {
             Connection conn = DriverManager.getConnection(url, "root", "");
             PreparedStatement st = conn.prepareStatement(query);
 
-            st.setString(1, user.getName());
+            st.setString(1, kn1.getVardas());
             st.setString(2, user.getSurname());
             st.setDouble(3, user.getSalary());
 
@@ -108,7 +108,7 @@ public class EmployeeDAO {
         String url = "jdbc:mysql://localhost:3306/database";
 
         String query = " DELETE FROM employees "
-                      + " WHERE id = ? ";
+                + " WHERE id = ? ";
 
         try {
             Connection conn = DriverManager.getConnection(url, "root", "");
