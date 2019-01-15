@@ -1,5 +1,5 @@
 public class Knyga {
-    private int Id;
+    private int id;
     private String vardas;
     private String pavarde;
     private int isleidimo_metai;
@@ -19,8 +19,8 @@ public class Knyga {
     }
 
     // skirtas darbui su egzistuojančiais duomenų bazės įrašais.
-    public Knyga(int Id, String vardas, String pavarde, int isleidimo_metai, int leidimas, String pavadinimas) {
-        this.Id = Id;
+    public Knyga(int id, String vardas, String pavarde, int isleidimo_metai, int leidimas, String pavadinimas) {
+        this.id = id;
         this.vardas = vardas;
         this.pavarde = pavarde;
         this.isleidimo_metai = isleidimo_metai;
@@ -29,7 +29,7 @@ public class Knyga {
     }
 
     public int getId() {
-        return this.Id;
+        return this.id;
     }
 
     public String getVardas() {
@@ -75,7 +75,7 @@ public class Knyga {
     @Override
     public String toString() {
         return "Knyga{" +
-                "Id=" + Id +
+                "id=" + id +
                 ", vardas='" + vardas + '\'' +
                 ", pavarde='" + pavarde + '\'' +
                 ", isleidimo_metai=" + isleidimo_metai +

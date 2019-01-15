@@ -4,19 +4,22 @@ public class Main {
 
     public static void main(String[] args) {
 
-        Knyga knyg = new Knyga("Jurgita", "Baltrukonyte", 2009, 3, "Torčiukas ant debesėlio");
-        user1.setSalary(777.77);
-        user1.setName("Antanas");
-//      EmployeeDAO.insert(user1);
+        Knyga knygaNr1 = new Knyga("Jurgita", "Baltrukonyte", 2009, 3, "Torčiukas ant debesėlio");
+       // knygaNr1.setLeidimas(7);
+       // knygaNr1.setVardas("Aldutė");
+       KnygaDAO.insert(knygaNr1);
 
-        ArrayList<Employee> employeeList = new ArrayList<>();
-        employeeList = EmployeeDAO.searchById(5);
-        Employee user = employeeList.get(0);
+        ArrayList<Knyga> knygaList = new ArrayList<>();
+        knygaList = KnygaDAO.searchById(2);
+        Knyga knygaNr = knygaList.get(0);
 
-        user.setName("Antanas2");
-        //EmployeeDAO.edit(user);
+        knygaNr.setVardas("Antanas");
+        KnygaDAO.edit(knygaNr);
 
-        EmployeeDAO.delete(5);
+        //KnygaDAO.delete(8);
+
+        int knyguSkaicius = KnygaDAO.knyguIsleidimoMetai(2010);
+        System.out.println("Knygu skaicius: " + knyguSkaicius);
 
     }
 }
@@ -24,7 +27,7 @@ public class Main {
 
 /*
 1. Kiek is viso lenteleje "knygos" yra knygu:
-SELECT COUNT(Id)
+SELECT COUNT(id)
  FROM Biblioteka.knygos;
 
  2. Isveskite visus pirmu knygu versiju pavadinimus, surikiuotus pagal isleidimo metus (nuo naujausios iki seniausios).
@@ -49,4 +52,5 @@ FROM Biblioteka.knygos
 GROUP BY pavadinimas
 ORDER BY isleido_autoriu DESC
 LIMIT 1;
+*/
 

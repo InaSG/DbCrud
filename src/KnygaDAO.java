@@ -3,21 +3,23 @@ import java.util.ArrayList;
 
 public class KnygaDAO {
 
-    public static void insert(Knyga knyg) {
+    static String url = "jdbc:mysql://localhost:3306/Biblioteka";
 
-        String url = "jdbc:mysql://localhost:3306/database";
+    public static void insert(Knyga knygaNr) {
 
         String query = "INSERT INTO knygos "
                 + "(vardas, pavarde, isleidimo_metai, leidimas, pavadinimas) "
                 + "VALUES (?,?,?,?,?)";
 
         try {
-            Connection conn = DriverManager.getConnection(url, "root", "");
+            Connection conn = DriverManager.getConnection(url, "ina", "ina123456789");
             PreparedStatement st = conn.prepareStatement(query);
 
-            st.setString(1, kn1.getVardas());
-            st.setString(2, user.getSurname());
-            st.setDouble(3, user.getSalary());
+            st.setString(1, knygaNr.getVardas());
+            st.setString(2, knygaNr.getPavarde());
+            st.setInt(3, knygaNr.getIsleidimo_metai());
+            st.setInt(4, knygaNr.getLeidimas());
+            st.setString( 5, knygaNr.getPavadinimas());
 
             st.executeUpdate();
             st.close();
@@ -25,32 +27,30 @@ public class KnygaDAO {
             System.out.println("Completed successfully");
 
         } catch (SQLException e) {
-
-            System.out.println("Can't login");
             e.printStackTrace();
         }
     }
 
-    public static void edit(Employee user) {
+    public static void edit(Knyga knygaNr) {
 
-        String url = "jdbc:mysql://localhost:3306/database";
-
-        String query = " UPDATE employees "
-                + " SET name = ?, "
-                + " surname = ?, "
-                + " salary = ?, "
-                + " data = ? "
+        String query = " UPDATE knygos "
+                + " SET vardas = ?, "
+                + " pavarde = ?, "
+                + " isleidimo_metai = ?, "
+                + " leidimas = ?, "
+                + " pavadinimas = ? "
                 + " WHERE id = ? ";
 
         try {
-            Connection conn = DriverManager.getConnection(url, "root", "");
+            Connection conn = DriverManager.getConnection(url, "ina", "ina123456789");
             PreparedStatement st = conn.prepareStatement(query);
 
-            st.setString(1, user.getName());
-            st.setString(2, user.getSurname());
-            st.setDouble(3, user.getSalary());
-            st.setString(4, user.getData());
-            st.setInt(5, user.getId());
+            st.setString(1, knygaNr.getVardas());
+            st.setString(2, knygaNr.getPavarde());
+            st.setInt(3, knygaNr.getIsleidimo_metai());
+            st.setInt(4, knygaNr.getLeidimas());
+            st.setString( 5, knygaNr.getPavadinimas());
+            st.setInt(6, knygaNr.getId());
 
             st.executeUpdate();
             st.close();
@@ -58,35 +58,29 @@ public class KnygaDAO {
             System.out.println("Database edited");
 
         } catch (SQLException e) {
-
-            System.out.println("Can't login");
             e.printStackTrace();
         }
     }
 
-    public static ArrayList<Employee> searchById(int id) {
+    public static ArrayList<Knyga> searchById(int id) {
 
-        String url = "jdbc:mysql://localhost:3306/database";
+        String query = "SELECT * FROM knygos WHERE id = ?";
 
-        String query = "SELECT * FROM employees WHERE id = ?";
-
-        ArrayList employeeList = new ArrayList<Employee>();
+        ArrayList knygaList = new ArrayList<Knyga>();
 
         try {
-            Connection conn = DriverManager.getConnection(url, "root", "");
+            Connection conn = DriverManager.getConnection(url, "ina", "ina123456789");
             PreparedStatement st = conn.prepareStatement(query);
-
             st.setInt(1, id);
-
             ResultSet rs = st.executeQuery();
-
             while (rs.next()) {
-                employeeList.add(new Employee(
+                knygaList.add(new Knyga(
                         rs.getInt("id"),
-                        rs.getString("name"),
-                        rs.getString("surname"),
-                        rs.getDouble("salary"),
-                        rs.getString("data"))
+                        rs.getString("vardas"),
+                        rs.getString("pavarde"),
+                        rs.getInt("isleidimo_metai"),
+                        rs.getInt ("leidimas"),
+                        rs.getString("pavadinimas"))
                 );
             }
 
@@ -95,36 +89,49 @@ public class KnygaDAO {
             System.out.println("Search by id successful");
 
         } catch (SQLException e) {
-
-            System.out.println("Problemyte ieskant");
             e.printStackTrace();
         }
 
-        return employeeList;
+        return knygaList;
     }
 
     public static void delete(int id) {
 
-        String url = "jdbc:mysql://localhost:3306/database";
-
-        String query = " DELETE FROM employees "
-                + " WHERE id = ? ";
+        String query = "DELETE FROM knygos WHERE id = ? ";
 
         try {
-            Connection conn = DriverManager.getConnection(url, "root", "");
+            Connection conn = DriverManager.getConnection(url, "ina", "ina123456789");
             PreparedStatement st = conn.prepareStatement(query);
-
             st.setInt(1, id);
-
             st.executeUpdate();
             st.close();
 
-            System.out.println("Database deleted");
+            System.out.println("Data deleted");
 
         } catch (SQLException e) {
-
-            System.out.println("Can't delete record");
             e.printStackTrace();
         }
+    }
+
+    public static int knyguIsleidimoMetai(int metai) {
+        int rezultatas = 0;
+
+        String query = "SELECT COUNT(*) FROM knygos WHERE isleidimo_metai = ?";
+
+        try {
+            Connection conn = DriverManager.getConnection(url, "ina", "ina123456789");
+            PreparedStatement st = conn.prepareStatement(query);
+            st.setInt(1, metai);
+            ResultSet resultSet = st.executeQuery();
+            if(resultSet.next()) {
+                rezultatas = resultSet.getInt(1);
+            }
+            st.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return rezultatas;
     }
 }
